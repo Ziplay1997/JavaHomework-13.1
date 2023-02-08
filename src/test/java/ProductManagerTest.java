@@ -4,12 +4,31 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductManagerTest {
-    Product item1 = new Product(11, "Пушкин", 210);
-    Product item2 = new Product(12, "Лермонтов", 220);
-    Product item3 = new Product(13, "Толстой", 230);
-    Product item4 = new Product(14, "Ботнарь", 240);
-    Product item5 = new Product(15, "Гоголь", 250);
+    Book item1 = new Book(11, "Пророк", 210, "Пушкин");
+    Smartphone item2 = new Smartphone(12, "Phone", 220, "Samsung");
+    Product item3 = new Product(13, "Клубника", 230);
+    Product item4 = new Product(14, "Хлеб", 240);
+    Product item5 = new Product(15, "Шоколад", 250);
+    Product item6 = new Product(16, "Шоколад", 250);
 
+
+    @Test
+    public void shouldSearchSomeProduct() {
+        ProductRepository repository = new ProductRepository();
+        ProductManager manager = new ProductManager(repository);
+
+        manager.add(item1);
+        manager.add(item2);
+        manager.add(item3);
+        manager.add(item4);
+        manager.add(item5);
+        manager.add(item6);
+
+        Product[] expected = {item5, item6};
+        Product[] actual = manager.searchBy("Шоколад");
+
+        assertArrayEquals(expected, actual);
+    }
 
     @Test
     public void shouldSearchProduct() {
@@ -20,11 +39,13 @@ class ProductManagerTest {
         manager.add(item2);
         manager.add(item3);
         manager.add(item4);
+        manager.add(item5);
+        manager.add(item6);
 
-        Product[] expected = {item4};
-        Product[] actual = manager.searchBy("Ботнарь");
+        Product[] expected = {item2};
+        Product[] actual = manager.searchBy("Phone");
 
-        Assertions.assertArrayEquals(expected, actual);
+        assertArrayEquals(expected, actual);
     }
 
 }
